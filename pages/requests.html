@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявки - TAUsers</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>TAUsers</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="profile.html">Профиль</a></li>
+                    <li><a href="requests.html" class="active">Заявки</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="content-section">
+                <h2>Создать новую заявку</h2>
+                
+                <form id="request-form">
+                    <div class="form-group">
+                        <label for="request-title">Название заявки</label>
+                        <input type="text" id="request-title" name="title" required placeholder="Введите название заявки">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="request-type">Тип заявки</label>
+                        <select id="request-type" name="type" required>
+                            <option value="">Выберите тип</option>
+                            <option value="support">Техническая поддержка</option>
+                            <option value="content">Запрос контента</option>
+                            <option value="subscription">Вопрос по подписке</option>
+                            <option value="feedback">Обратная связь</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="request-description">Описание</label>
+                        <textarea id="request-description" name="description" required placeholder="Опишите вашу заявку"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Отправить заявку</button>
+                </form>
+            </section>
+            
+            <section class="content-section">
+                <h2>Мои заявки</h2>
+                
+                <div class="filter-controls">
+                    <label>
+                        Фильтр:
+                        <select id="status-filter">
+                            <option value="all">Все заявки</option>
+                            <option value="new">Новые</option>
+                            <option value="processing">В обработке</option>
+                            <option value="completed">Завершенные</option>
+                            <option value="rejected">Отклоненные</option>
+                        </select>
+                    </label>
+                </div>
+                
+                <div id="requests-list">
+                    <p class="loading-message">Загрузка заявок...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TAUsers - Приложения для tashi-ani.ru</p>
+            <p>
+                <a href="https://github.com/DGersmv/TAUsers" target="_blank">GitHub</a> |
+                <a href="https://github.com/DGersmv/TAOnline" target="_blank">TAOnline</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRequests();
+            
+            document.getElementById('request-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitRequest();
+            });
+            
+            document.getElementById('status-filter').addEventListener('change', function() {
+                loadRequests();
+            });
+        });
+        
+        function submitRequest() {
+            const formData = {
+                title: document.getElementById('request-title').value,
+                type: document.getElementById('request-type').value,
+                description: document.getElementById('request-description').value
+            };
+            
+            const request = TAUsers.requestsDB.add(formData);
+            
+            if (request) {
+                TAUsers.showNotification('Заявка успешно создана', 'success');
+                document.getElementById('request-form').reset();
+                loadRequests();
+            } else {
+                TAUsers.showNotification('Ошибка при создании заявки', 'error');
+            }
+        }
+        
+        function loadRequests() {
+            const filter = document.getElementById('status-filter').value;
+            let requests = TAUsers.requestsDB.get();
+            
+            if (filter !== 'all') {
+                requests = requests.filter(r => r.status === filter);
+            }
+            
+            const listContainer = document.getElementById('requests-list');
+            
+            if (requests.length === 0) {
+                listContainer.innerHTML = '<p class="empty-message">У вас пока нет заявок</p>';
+                return;
+            }
+            
+            // Sort by date (newest first)
+            requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            const html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Тип</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${requests.map(request => `
+                            <tr>
+                                <td><strong>${request.title}</strong></td>
+                                <td>${getTypeText(request.type)}</td>
+                                <td><span class="status-badge status-${request.status}">${TAUsers.getStatusText(request.status)}</span></td>
+                                <td>${TAUsers.formatDate(request.createdAt)}</td>
+                                <td>
+                                    <button class="btn btn-small view-request-btn" data-request-id="${request.id}">
+                                        Просмотр
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            listContainer.innerHTML = html;
+            
+            // Add event delegation for view buttons
+            listContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('view-request-btn')) {
+                    const requestId = parseInt(e.target.getAttribute('data-request-id'));
+                    viewRequest(requestId);
+                }
+            });
+        }
+        
+        function getTypeText(type) {
+            const typeMap = {
+                'support': 'Поддержка',
+                'content': 'Контент',
+                'subscription': 'Подписка',
+                'feedback': 'Обратная связь',
+                'other': 'Другое'
+            };
+            return typeMap[type] || type;
+        }
+        
+        function viewRequest(id) {
+            const requests = TAUsers.requestsDB.get();
+            const request = requests.find(r => r.id === id);
+            
+            if (request) {
+                // Create modal dialog for better UX
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <span class="modal-close">&times;</span>
+                        <h3>Детали заявки</h3>
+                        <div class="modal-body">
+                            <p><strong>Название:</strong> ${request.title}</p>
+                            <p><strong>Тип:</strong> ${getTypeText(request.type)}</p>
+                            <p><strong>Статус:</strong> <span class="status-badge status-${request.status}">${TAUsers.getStatusText(request.status)}</span></p>
+                            <p><strong>Дата создания:</strong> ${TAUsers.formatDate(request.createdAt)}</p>
+                            <hr>
+                            <p><strong>Описание:</strong></p>
+                            <p>${request.description}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-close-modal">Закрыть</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listeners for closing modal
+                const closeBtn = modal.querySelector('.modal-close');
+                const closeModalBtn = modal.querySelector('.btn-close-modal');
+                
+                closeBtn.addEventListener('click', () => modal.remove());
+                closeModalBtn.addEventListener('click', () => modal.remove());
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
+                document.body.appendChild(modal);
+            }
+        }
+    </script>
+    
+    <style>
+        .filter-controls {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .filter-controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-controls select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .modal-body {
+            margin: 1rem 0;
+        }
+        
+        .modal-body p {
+            margin: 0.5rem 0;
+        }
+        
+        .modal-body hr {
+            margin: 1rem 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+        
+        .modal-footer {
+            margin-top: 2rem;
+            text-align: right;
+        }
+    </style>
+</body>
+</html>
