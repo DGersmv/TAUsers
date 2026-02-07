@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAUsers - Приложения для заказчиков tashi-ani.ru</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>TAUsers</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Главная</a></li>
+                    <li><a href="pages/profile.html">Профиль</a></li>
+                    <li><a href="pages/requests.html">Заявки</a></li>
+                    <li><a href="pages/about.html">О проекте</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Добро пожаловать в TAUsers</h2>
+                <p>Портал для заказчиков и пользователей tashi-ani.ru</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h3>Возможности</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h4>Личный профиль</h4>
+                        <p>Управляйте своими данными и настройками</p>
+                        <a href="pages/profile.html" class="btn">Перейти</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h4>Заявки</h4>
+                        <p>Создавайте и отслеживайте свои заявки</p>
+                        <a href="pages/requests.html" class="btn">Перейти</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4>Мобильное приложение</h4>
+                        <p>Доступ с любого устройства</p>
+                        <a href="https://github.com/DGersmv/TAOnline" class="btn" target="_blank">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-access">
+            <div class="container">
+                <h3>Быстрый доступ</h3>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="location.href='pages/requests.html'">
+                        Создать новую заявку
+                    </button>
+                    <button class="btn-secondary" onclick="location.href='pages/profile.html'">
+                        Мой профиль
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TAUsers - Приложения для tashi-ani.ru</p>
+            <p>
+                <a href="https://github.com/DGersmv/TAUsers" target="_blank">GitHub</a> |
+                <a href="https://github.com/DGersmv/TAOnline" target="_blank">TAOnline</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

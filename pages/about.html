@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте - TAUsers</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>TAUsers</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="profile.html">Профиль</a></li>
+                    <li><a href="requests.html">Заявки</a></li>
+                    <li><a href="about.html" class="active">О проекте</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="content-section">
+                <h2>О проекте TAUsers</h2>
+                
+                <p>TAUsers - это веб-приложение для управления заявками и профилями пользователей платформы <a href="https://tashi-ani.ru" target="_blank">tashi-ani.ru</a>.</p>
+                
+                <h3>Возможности</h3>
+                <ul>
+                    <li>Создание и управление профилем пользователя</li>
+                    <li>Отправка заявок различных типов</li>
+                    <li>Отслеживание статуса заявок</li>
+                    <li>Просмотр статистики активности</li>
+                    <li>Адаптивный дизайн для всех устройств</li>
+                </ul>
+                
+                <h3>Технологии</h3>
+                <ul>
+                    <li>HTML5 - структура страниц</li>
+                    <li>CSS3 - стилизация и адаптивный дизайн</li>
+                    <li>JavaScript (Vanilla JS) - логика приложения</li>
+                    <li>LocalStorage API - хранение данных на клиенте</li>
+                </ul>
+            </section>
+            
+            <section class="content-section">
+                <h2>Связанные проекты</h2>
+                
+                <div class="project-card">
+                    <h3>📱 TAOnline</h3>
+                    <p>Android-приложение для просмотра аниме на платформе tashi-ani.ru</p>
+                    <a href="https://github.com/DGersmv/TAOnline" class="btn" target="_blank">Перейти к проекту</a>
+                </div>
+            </section>
+            
+            <section class="content-section">
+                <h2>Контакты и поддержка</h2>
+                
+                <p>Для вопросов, предложений и сообщений об ошибках используйте:</p>
+                <ul>
+                    <li><a href="https://github.com/DGersmv/TAUsers/issues" target="_blank">GitHub Issues</a> - сообщения об ошибках и предложения</li>
+                    <li><a href="https://github.com/DGersmv/TAUsers" target="_blank">GitHub Repository</a> - исходный код проекта</li>
+                </ul>
+            </section>
+            
+            <section class="content-section">
+                <h2>Версия и обновления</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Версия</th>
+                            <th>Дата</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1.0.0</strong></td>
+                            <td>Февраль 2026</td>
+                            <td>Первый релиз приложения с основным функционалом</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TAUsers - Приложения для tashi-ani.ru</p>
+            <p>
+                <a href="https://github.com/DGersmv/TAUsers" target="_blank">GitHub</a> |
+                <a href="https://github.com/DGersmv/TAOnline" target="_blank">TAOnline</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    
+    <style>
+        .project-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .project-card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .project-card p {
+            margin: 1rem 0;
+        }
+        
+        .project-card .btn {
+            background-color: white;
+            color: #667eea;
+        }
+        
+        .project-card .btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .content-section ul {
+            padding-left: 2rem;
+        }
+        
+        .content-section ul li {
+            margin: 0.5rem 0;
+        }
+        
+        .content-section a {
+            color: #3498db;
+        }
+        
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html>
