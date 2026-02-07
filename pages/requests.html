@@ -158,7 +158,7 @@
                                 <td><span class="status-badge status-${request.status}">${TAUsers.getStatusText(request.status)}</span></td>
                                 <td>${TAUsers.formatDate(request.createdAt)}</td>
                                 <td>
-                                    <button class="btn btn-small" onclick="viewRequest(${request.id})">
+                                    <button class="btn btn-small view-request-btn" data-request-id="${request.id}">
                                         Просмотр
                                     </button>
                                 </td>
@@ -169,6 +169,14 @@
             `;
             
             listContainer.innerHTML = html;
+            
+            // Add event delegation for view buttons
+            listContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('view-request-btn')) {
+                    const requestId = parseInt(e.target.getAttribute('data-request-id'));
+                    viewRequest(requestId);
+                }
+            });
         }
         
         function getTypeText(type) {
