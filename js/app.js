@@ -65,7 +65,8 @@ const requestsDB = {
     
     add: function(request) {
         const requests = this.get();
-        request.id = Date.now();
+        // Generate unique ID using timestamp and random component to avoid collisions
+        request.id = Date.now() + Math.floor(Math.random() * 1000);
         request.status = 'new';
         request.createdAt = new Date().toISOString();
         requests.push(request);

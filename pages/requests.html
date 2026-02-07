@@ -187,16 +187,28 @@
             const request = requests.find(r => r.id === id);
             
             if (request) {
-                const details = `
-                    Заявка: ${request.title}
-                    Тип: ${getTypeText(request.type)}
-                    Статус: ${TAUsers.getStatusText(request.status)}
-                    Дата: ${TAUsers.formatDate(request.createdAt)}
-                    
-                    Описание:
-                    ${request.description}
+                // Create modal dialog for better UX
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <span class="modal-close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                        <h3>Детали заявки</h3>
+                        <div class="modal-body">
+                            <p><strong>Название:</strong> ${request.title}</p>
+                            <p><strong>Тип:</strong> ${getTypeText(request.type)}</p>
+                            <p><strong>Статус:</strong> <span class="status-badge status-${request.status}">${TAUsers.getStatusText(request.status)}</span></p>
+                            <p><strong>Дата создания:</strong> ${TAUsers.formatDate(request.createdAt)}</p>
+                            <hr>
+                            <p><strong>Описание:</strong></p>
+                            <p>${request.description}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" onclick="this.parentElement.parentElement.parentElement.remove()">Закрыть</button>
+                        </div>
+                    </div>
                 `;
-                alert(details);
+                document.body.appendChild(modal);
             }
         }
     </script>
@@ -219,6 +231,65 @@
             padding: 0.5rem;
             border: 1px solid #ddd;
             border-radius: 4px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .modal-body {
+            margin: 1rem 0;
+        }
+        
+        .modal-body p {
+            margin: 0.5rem 0;
+        }
+        
+        .modal-body hr {
+            margin: 1rem 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+        
+        .modal-footer {
+            margin-top: 2rem;
+            text-align: right;
         }
     </style>
 </body>
