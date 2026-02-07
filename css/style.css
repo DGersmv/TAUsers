@@ -279,6 +279,14 @@ table tr:hover {
     background-color: #f8f9fa;
 }
 
+/* Message styles */
+.loading-message,
+.empty-message {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+}
+
 /* Status badges */
 .status-badge {
     padding: 0.25rem 0.75rem;

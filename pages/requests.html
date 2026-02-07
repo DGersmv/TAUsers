@@ -72,7 +72,7 @@
                 </div>
                 
                 <div id="requests-list">
-                    <p style="text-align: center; color: #666;">Загрузка заявок...</p>
+                    <p class="loading-message">Загрузка заявок...</p>
                 </div>
             </section>
         </div>
@@ -132,7 +132,7 @@
             const listContainer = document.getElementById('requests-list');
             
             if (requests.length === 0) {
-                listContainer.innerHTML = '<p style="text-align: center; color: #666;">У вас пока нет заявок</p>';
+                listContainer.innerHTML = '<p class="empty-message">У вас пока нет заявок</p>';
                 return;
             }
             

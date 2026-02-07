@@ -61,10 +61,10 @@
             <div class="container">
                 <h3>Быстрый доступ</h3>
                 <div class="action-buttons">
-                    <button class="btn-primary" onclick="location.href='pages/requests.html'">
+                    <button class="btn-primary" id="btn-create-request">
                         Создать новую заявку
                     </button>
-                    <button class="btn-secondary" onclick="location.href='pages/profile.html'">
+                    <button class="btn-secondary" id="btn-my-profile">
                         Мой профиль
                     </button>
                 </div>
@@ -83,5 +83,15 @@
     </footer>
 
     <script src="js/app.js"></script>
+    <script>
+        // Add event listeners for navigation buttons
+        document.getElementById('btn-create-request').addEventListener('click', function() {
+            location.href = 'pages/requests.html';
+        });
+        
+        document.getElementById('btn-my-profile').addEventListener('click', function() {
+            location.href = 'pages/profile.html';
+        });
+    </script>
 </body>
 </html>
