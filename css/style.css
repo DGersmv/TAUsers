@@ -139,6 +139,11 @@ header {
     background-color: #2980b9;
 }
 
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
 .btn-primary {
     background-color: #3498db;
     color: white;

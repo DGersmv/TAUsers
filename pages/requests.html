@@ -158,7 +158,7 @@
                                 <td><span class="status-badge status-${request.status}">${TAUsers.getStatusText(request.status)}</span></td>
                                 <td>${TAUsers.formatDate(request.createdAt)}</td>
                                 <td>
-                                    <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="viewRequest(${request.id})">
+                                    <button class="btn btn-small" onclick="viewRequest(${request.id})">
                                         Просмотр
                                     </button>
                                 </td>
@@ -192,7 +192,7 @@
                 modal.className = 'modal';
                 modal.innerHTML = `
                     <div class="modal-content">
-                        <span class="modal-close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                        <span class="modal-close">&times;</span>
                         <h3>Детали заявки</h3>
                         <div class="modal-body">
                             <p><strong>Название:</strong> ${request.title}</p>
@@ -204,10 +204,25 @@
                             <p>${request.description}</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn" onclick="this.parentElement.parentElement.parentElement.remove()">Закрыть</button>
+                            <button class="btn btn-close-modal">Закрыть</button>
                         </div>
                     </div>
                 `;
+                
+                // Add event listeners for closing modal
+                const closeBtn = modal.querySelector('.modal-close');
+                const closeModalBtn = modal.querySelector('.btn-close-modal');
+                
+                closeBtn.addEventListener('click', () => modal.remove());
+                closeModalBtn.addEventListener('click', () => modal.remove());
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
                 document.body.appendChild(modal);
             }
         }

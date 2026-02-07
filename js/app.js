@@ -65,8 +65,16 @@ const requestsDB = {
     
     add: function(request) {
         const requests = this.get();
-        // Generate unique ID using timestamp and random component to avoid collisions
-        request.id = Date.now() + Math.floor(Math.random() * 1000);
+        // Generate unique ID using timestamp and random component
+        // Check for collisions and regenerate if necessary
+        let newId;
+        let attempts = 0;
+        do {
+            newId = Date.now() + Math.floor(Math.random() * 10000);
+            attempts++;
+        } while (requests.some(r => r.id === newId) && attempts < 10);
+        
+        request.id = newId;
         request.status = 'new';
         request.createdAt = new Date().toISOString();
         requests.push(request);
